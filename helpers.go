@@ -62,3 +62,35 @@ func RandomString(n int) string {
 	}
 	return string(bytes)
 }
+
+func RandomInt(a, b int) int {
+
+	var bytes = make([]byte, 1)
+	rand.Read(bytes)
+
+	per := float32(bytes[0]) / 256.0
+	dif := Max(a, b) - Min(a, b)
+
+	return Min(a, b) + int(per*float32(dif))
+
+}
+
+func Max(a, b int) int {
+
+	if a >= b {
+
+		return a
+	}
+
+	return b
+}
+
+func Min(a, b int) int {
+
+	if a <= b {
+
+		return a
+	}
+
+	return b
+}
