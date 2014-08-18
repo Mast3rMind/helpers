@@ -3,6 +3,7 @@ package helpers
 import (
 	"crypto/rand"
 	"crypto/sha1"
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -34,6 +35,16 @@ func StructToBSONMap(st interface{}) (m map[string]interface{}) {
 	return
 }
 
+func ArrayOfBytes(i int, b byte) (p []byte) {
+
+	for i != 0 {
+
+		p = append(p, b)
+		i--
+	}
+	return
+}
+
 func IsNil(v interface{}) bool {
 	return reflect.ValueOf(v).IsNil()
 }
@@ -49,6 +60,13 @@ func SHA1(data []byte) string {
 	hash := sha1.New()
 	hash.Write(data)
 	return fmt.Sprintf("%x", hash.Sum(nil))
+}
+
+func SHA256(data []byte) []byte {
+
+	hash := sha256.New()
+	hash.Write(data)
+	return hash.Sum(nil)
 }
 
 // From http://devpy.wordpress.com/2013/10/24/create-random-string-in-golang/
