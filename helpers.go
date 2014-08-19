@@ -4,9 +4,11 @@ import (
 	"crypto/rand"
 	"crypto/sha1"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
+	"math/big"
 	"reflect"
 )
 
@@ -43,6 +45,18 @@ func ArrayOfBytes(i int, b byte) (p []byte) {
 		i--
 	}
 	return
+}
+
+func FitBytesInto(d []byte, i int) []byte {
+
+	if len(d) < i {
+
+		dif := i - len(d)
+
+		return append(ArrayOfBytes(dif, 0), d...)
+	}
+
+	return d
 }
 
 func IsNil(v interface{}) bool {
@@ -90,7 +104,6 @@ func RandomInt(a, b int) int {
 	dif := Max(a, b) - Min(a, b)
 
 	return Min(a, b) + int(per*float32(dif))
-
 }
 
 func Max(a, b int) int {
@@ -111,4 +124,40 @@ func Min(a, b int) int {
 	}
 
 	return b
+}
+
+func EncodeBase64(data []byte) []byte {
+
+	base64data := []byte{}
+	base64.StdEncoding.Encode(base64data, data)
+	return base64data
+}
+
+func DecodeBase64(base64data []byte) (data []byte) {
+
+	base64.StdEncoding.Decode(data, base64data)
+	return
+}
+
+func EncodeBigsBase64(is ...*big.Int) []byte {
+
+	arr := []byte{}
+	for _, i := range is {
+		arr = append(arr, i.Bytes()...)
+	}
+	return EncodeBase64(arr)
+}
+
+func DecodeBigsBase64(d []byte, i int) []*big.Int {
+
+	arr := make([]*big.Int, i)
+	is := DecodeBase64(d)
+	l := len(is) / i
+
+	for i, _ := range is {
+
+		arr[i] = big.NewInt(0).SetBytes(is[l*i : l*(i+1)])
+	}
+
+	return arr
 }
