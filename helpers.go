@@ -59,6 +59,18 @@ func FitBytesInto(d []byte, i int) []byte {
 	return d
 }
 
+func StripByte(d []byte, b byte) []byte {
+
+	for i, bb := range d {
+
+		if bb != b {
+			return d[i:]
+		}
+	}
+
+	return nil
+}
+
 func IsNil(v interface{}) bool {
 	return reflect.ValueOf(v).IsNil()
 }
