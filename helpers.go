@@ -10,6 +10,7 @@ import (
 	"io"
 	"math/big"
 	"reflect"
+	"time"
 )
 
 func StructToBSONMap(st interface{}) (m map[string]interface{}) {
@@ -172,4 +173,15 @@ func DecodeBigsBase64(d []byte, i int) []*big.Int {
 	}
 
 	return arr
+}
+
+func Timeout(i time.Duration) chan bool {
+
+	t := make(chan bool)
+	go func() {
+		time.Sleep(i)
+		t <- true
+	}()
+
+	return t
 }
