@@ -64,7 +64,7 @@ func FitBytesInto(d []byte, i int) []byte {
 		return append(ArrayOfBytes(dif, 0), d...)
 	}
 
-	return d
+	return d[:i]
 }
 
 func StripByte(d []byte, b byte) []byte {
