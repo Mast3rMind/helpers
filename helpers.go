@@ -10,6 +10,7 @@ import (
 	"io"
 	"math/big"
 	"reflect"
+	"strings"
 	"time"
 )
 
@@ -32,10 +33,9 @@ func StructToBSONMap(st interface{}) (m map[string]interface{}) {
 		field := s.Field(i)
 		typeField := typeOfT.Field(i)
 
-		fieldName := typeField.Tag.Get("bson")
+		fieldName := strings.Split(typeField.Tag.Get("bson"), ",")[0]
 
 		if fieldName == "" {
-
 			fieldName = typeField.Name
 		}
 
