@@ -93,7 +93,7 @@ func SHA1(data []byte) string {
 
 	hash := sha1.New()
 	hash.Write(data)
-	return fmt.Sprintf("%x", hash.Sum(nil))
+	return SHAString(hash.Sum(nil))
 }
 
 func SHA256(data []byte) []byte {
@@ -101,6 +101,10 @@ func SHA256(data []byte) []byte {
 	hash := sha256.New()
 	hash.Write(data)
 	return hash.Sum(nil)
+}
+
+func SHAString(data []byte) string {
+	return fmt.Sprintf("%x", data)
 }
 
 // From http://devpy.wordpress.com/2013/10/24/create-random-string-in-golang/
